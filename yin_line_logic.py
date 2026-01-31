@@ -57,11 +57,11 @@ def check_logic(df):
     # 缩量：成交量小于5日均量的65%
     is_shrink = curr['成交量'] < (curr['v_ma5'] * 0.65)
     
-    # 寻找支撑位：阴线越靠近均线越好（偏离度在1.5%以内）
+    # 寻找支撑位：阴线越靠近均线越好（偏离度在1.0%以内）
     support_ma_key = None
-    if abs(curr['收盘'] - curr['ma10']) / curr['ma10'] <= 0.015:
+    if abs(curr['收盘'] - curr['ma10']) / curr['ma10'] <= 0.010:
         support_ma_key = 'MA10'
-    elif abs(curr['收盘'] - curr['ma5']) / curr['ma5'] <= 0.015:
+    elif abs(curr['收盘'] - curr['ma5']) / curr['ma5'] <= 0.010:
         support_ma_key = 'MA5'
     
     if is_yin and is_shrink and support_ma_key:
