@@ -54,8 +54,8 @@ def check_logic(df):
 
     # --- 过滤逻辑 4: 线上阴线回踩 (核心买点) ---
     is_yin = curr['收盘'] < curr['开盘'] or curr['change'] <= 0
-    # 缩量：成交量小于5日均量的85%
-    is_shrink = curr['成交量'] < (curr['v_ma5'] * 0.85)
+    # 缩量：成交量小于5日均量的65%
+    is_shrink = curr['成交量'] < (curr['v_ma5'] * 0.65)
     
     # 寻找支撑位：阴线越靠近均线越好（偏离度在1.5%以内）
     support_ma_key = None
