@@ -51,7 +51,7 @@ def check_logic(df):
     curr = df.iloc[-1]
     
     # --- 维度 A: 基础过滤 (原有) ---
-    if not (5.0 <= curr['收盘'] <= 35.0) or curr['成交额'] < 800000000:
+    if not (5.0 <= curr['收盘'] <= 20.0) or curr['成交额'] < 800000000:
         return None, None
 
     # --- 维度 B: RSI 强弱过滤 (新增：成功的核心防线) ---
