@@ -1,0 +1,40 @@
+name: one_pattern_strategy
+
+on:
+  schedule:
+   
+    - cron: '43 7 * * *'
+  push:
+    paths:
+      - 'one_pattern_strategy.py'
+      - '.github/workflows/one_pattern_strategy.yml'
+  workflow_dispatch: # 支持手动运行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          pip install pandas pytz
+
+      - name: Run Strategy Script
+        run: python one_pattern_strategy.py
+
+      - name: Commit and Push Results
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add results/
+          # 只有在有新文件时才提交，防止报错
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update stock results $(date +'%Y-%m-%d %H:%M')" && git push)
