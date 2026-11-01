@@ -1,0 +1,39 @@
+name: Golden_Retracement_Strategy
+
+on:
+  schedule:
+    # 北京时间 17:00 运行 (UTC 9:00)
+    - cron: '32 7 * * *'
+  workflow_dispatch: # 支持手动运行
+  push:
+    paths:
+      - 'Golden_Retracement_Strategy.py'
+      - '.github/workflows/Golden_Retracement_Strategy.yml'
+
+jobs:
+  stock_analysis:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install pandas numpy
+
+      - name: Run Analysis Script
+        run: python Golden_Retracement_Strategy.py
+
+      - name: Commit and Push Results
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add .
+          git commit -m "Auto Analysis Report: $(date +'%Y-%m-%d %H:%M:%S')" || exit 0
+          git push
